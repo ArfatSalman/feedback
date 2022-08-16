@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 
+
 def connect_db(app):
     """Connect to the Users database"""
     db.app = app
@@ -11,14 +12,17 @@ def connect_db(app):
 
 
 class User(db.Model):
-    """Class representing a user on the feedback page"""
+    """Class representing a user on the feedback page."""
+
     __tablename__ = "users"
 
     username = db.Column(db.Text, primary_key=True, nullable=False, unique=True)
     password = db.Column(db.Text, nullable=False)
-    email= db.Column(db.String(50), nullable=False, unique=True)
+    email = db.Column(db.String(50), nullable=False, unique=True)
     first_name = db.Column(db.String(30), nullable=False)
     last_name = db.Column(db.String(30), nullable=False)
+
+    feedback = db.relationship("Feedback", cascade="delete", backref="user")
 
     @classmethod
     def register(cls, username, pwd, email, f_name, l_name):
@@ -28,8 +32,13 @@ class User(db.Model):
         # turn bytestring into readable (unicode utf8) string
         hashed_utf8 = hashed.decode("utf8")
 
-        return cls(username=username, password=hashed_utf8, email=email, first_name=f_name, last_name=l_name)
-    
+        return cls(
+            username=username,
+            password=hashed_utf8,
+            email=email,
+            first_name=f_name,
+            last_name=l_name,
+        )
 
     @classmethod
     def authenticate(cls, username, pwd):
@@ -42,3 +51,15 @@ class User(db.Model):
             return user
         else:
             return False
+
+    class Feedback(db.Model):
+        """Class representing a feedback that a user has given."""
+
+        __tablename__ = "feedback"
+
+        id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+        title = db.Column(db.String(100), nullable=False)
+        content = db.Column(db.Text, nullable=False)
+        username = db.Column(
+            db.Text, db.ForeignKey("users.username", ondelete="CASCADE")
+        )
