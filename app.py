@@ -97,4 +97,10 @@ def display_user_details(username):
     else:
         flash("A user's details can only be viewed by that user while they are logged in.", "error")
         return render_template("index.html")
+
+@app.route("/logout")
+def logout_user():
+    """Logs a user out of the feedback site."""
+    session.pop("user", None)
+    return redirect("/")
     
