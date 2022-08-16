@@ -9,7 +9,16 @@
   <title>{% block title %}Document{% endblock %}</title>
 </head>
 <body>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="flash">
+      {% for msg in messages %}
+        <div>{{msg}}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  {% endwith %}
   {% block content %}
-  {% endcontent %}
+  {% endblock %}
 </body>
 </html>
