@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 
-{% block title %}Feedback Page{% endblock %}
+{% block title %}Feedback Home{% endblock %}
 
 {% block content %}
+<div class="navbar row">
+  {% if 'user' in session %}
+  <a href="/users/{{session['user']}}">Account Details</a>
+  <a href="/logout">Logout</a>
+  {% else %}
+  <a href="/login">Login</a>
+  <a href="/register">Sign Up</a>
+  {% endif %}
+</div>
 {% endblock %}

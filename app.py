@@ -1,7 +1,8 @@
+from sqlite3 import IntegrityError
 from flask import Flask, render_template, redirect, session, flash
 from models import User, db, connect_db
 from forms import AddUserForm, LoginForm
-from sqlite3 import IntegrityError
+from sqlalchemy import exc
 import os
 
 app = Flask(__name__)
@@ -15,6 +16,17 @@ app.config["SQLALCHEMY_ECHO"] = True
 app.debug = True
 
 connect_db(app)
+
+
+@app.before_first_request
+def seed_table():
+    """Creates intial table of users and feedback to simplify testing the site."""
+    db.drop_all()
+    db.create_all()
+    test_user = User.register(username="test", password="test_pass", email="test_email@email.com", first_name="test_f", last_name="test_l")
+    db.session.add(test_user)
+    db.session.commit()
+
 
 # GET /
 # Redirect to /register.
@@ -44,12 +56,13 @@ def add_user():
     if form.validate_on_submit():
         user_inputs = form.data
         user_inputs.pop("csrf_token", None)
-        added_user = User(**user_inputs)
+        added_user = User.register(**user_inputs)
         db.session.add(added_user)
         try:
             db.session.commit()
+            session["user"] = added_user.username
             return redirect(f"/users/{added_user.username}")
-        except IntegrityError:
+        except exc.IntegrityError:
             db.session.rollback()
             form.username.errors.append("That username is taken. Please try again.")
             return render_template("register.html", form=form)
@@ -92,8 +105,9 @@ def login_user():
 def display_user_details(username):
     """Displays a user's account details if they are logged in."""
     current_user = session.get("user", None)
-    if current_user and current_user.username == username:
-        return render_template("user_details.html")
+    if current_user and current_user == username:
+        user = User.query.filter_by(username=username).first()
+        return render_template("user_details.html", user=user)
     else:
         flash("A user's details can only be viewed by that user while they are logged in.", "error")
         return render_template("index.html")

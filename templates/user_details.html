@@ -3,4 +3,11 @@
 {% block title %}User Details{% endblock %}
 
 {% block content %}
+<div class="column centered">
+  <h1>User Details:</h1>
+  <div>Username: {{user.username}}</div>
+  <div>First Name: {{user.first_name}}</div>
+  <div>Last Name: {{user.last_name}}</div>
+  <div>Email: {{user.email}}</div>
+</div>
 {% endblock %}

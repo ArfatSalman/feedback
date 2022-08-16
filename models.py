@@ -25,10 +25,10 @@ class User(db.Model):
     feedback = db.relationship("Feedback", cascade="delete", backref="user")
 
     @classmethod
-    def register(cls, username, pwd, email, f_name, l_name):
+    def register(cls, username, password, email, first_name, last_name):
         """Register user w/hashed password & return that user."""
 
-        hashed = bcrypt.generate_password_hash(pwd)
+        hashed = bcrypt.generate_password_hash(password)
         # turn bytestring into readable (unicode utf8) string
         hashed_utf8 = hashed.decode("utf8")
 
@@ -36,18 +36,18 @@ class User(db.Model):
             username=username,
             password=hashed_utf8,
             email=email,
-            first_name=f_name,
-            last_name=l_name,
+            first_name=first_name,
+            last_name=last_name,
         )
 
     @classmethod
-    def authenticate(cls, username, pwd):
+    def authenticate(cls, username, password):
         """Validate that user exists & password is correct.
         Return user if valid; else return False."""
 
         user = User.query.filter_by(username=username).first()
 
-        if user and bcrypt.check_password_hash(user.password, pwd):
+        if user and bcrypt.check_password_hash(user.password, password):
             return user
         else:
             return False
