@@ -10,4 +10,25 @@
   <div>Last Name: {{user.last_name}}</div>
   <div>Email: {{user.email}}</div>
 </div>
+<div class="column centered">
+  <h3>Your Feedback</h3>
+  {% if user.feedback|length == 0 %}
+    <div>You haven't submitted any feedback!</div>
+  {% else %}
+    {% for post in feedback %}
+    <div>
+      <div>{{post.title}}</div>
+      <div>{{post.content}}</div>
+      <a href="/feedback/{{post.id}}/update">Edit Feedback</a>
+      <form action="/feedback/{{post.id}}/delete" method="post">
+        <button>Delete Feedback</button>
+      </form>
+    </div>
+    {% endfor %}
+  {% endif %}
+</div>
+<a href="/users/{{user.username}}/feedback/add">Add Feedback</a>
+<form action="/users/{{user.username}}/delete" method="post">
+  <button>Delete Account</button>
+</form>
 {% endblock %}

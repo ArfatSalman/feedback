@@ -18,6 +18,16 @@
     </div>
     {% endif %}
   {% endwith %}
+  <div class="navbar row">
+    <a href="/">Home</a>
+    {% if 'user' in session %}
+    <a href="/users/{{session['user']}}">Account Details</a>
+    <a href="/logout">Logout</a>
+    {% else %}
+    <a href="/login">Login</a>
+    <a href="/register">Sign Up</a>
+    {% endif %}
+  </div>
   {% block content %}
   {% endblock %}
 </body>

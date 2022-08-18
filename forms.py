@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, EmailField
-from wtforms.validators import InputRequired, Email, Length
+from wtforms import StringField, PasswordField, EmailField, TextAreaField
+from wtforms.validators import InputRequired, Email, Length, Optional
 
 
 class AddUserForm(FlaskForm):
@@ -40,4 +40,28 @@ class LoginForm(FlaskForm):
     password = PasswordField(
         "Password",
         validators=[InputRequired(message="A password is required to sign in.")],
+    )
+
+
+class FeedbackForm(FlaskForm):
+    """Form to let a user submit feedback to the feedback site."""
+
+    title = StringField(
+        "Title",
+        validators=[Length(max=100), InputRequired(message="A title is required.")],
+    )
+    content = TextAreaField(
+        "Content", validators=[InputRequired(message="Feedback content is required.")]
+    )
+
+
+class EditFeedbackForm(FlaskForm):
+    """Form to let a user submit feedback to the feedback site."""
+
+    title = StringField(
+        "Title",
+        validators=[Length(max=100), Optional()],
+    )
+    content = TextAreaField(
+        "Content", validators=[Optional()]
     )
