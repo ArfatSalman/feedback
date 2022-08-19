@@ -1,17 +1,17 @@
 {{ form.hidden_tag() }}
-<div class="form-column">
+<div class="">
   {% for field in form if field.widget.input_type != 'hidden' %}
-  <div class="form-row">
+  <div class="form-row margin-1-top-bot space-between">
     {{ field.label(class_="") }}
     {{ field(class_="") }}
   </div>
   {% if field.errors %}
   {% for error in field.errors %}
   <div class="form-row">
-    <div class="align-l">{{ error }}</div>
+    <div class="">{{ error }}</div>
   </div>
   {% endfor %}
   {% endif %}
   {% endfor %}
 </div>
-<button class="centered button-green">Submit</button>
+<button class="button-blue font-1_25">Submit</button>

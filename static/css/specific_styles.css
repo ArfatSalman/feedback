@@ -1,0 +1,30 @@
+.navbar {
+  font-size: 1.75rem;
+  background-color: rgb(20, 20, 80);
+  color: white;
+  padding-left: min(5vw, 10rem);
+  padding-right: min(5vw, 10rem);
+}
+
+.nav-link {
+  text-decoration: none;
+  color: inherit;
+  padding: 1rem;
+}
+
+.nav-link:hover {
+  background-color: hsl(240, 60%, 10%);
+}
+
+.form-box {
+  width: fit-content;
+  border: 2px black solid;
+  background-color: white;
+  margin-top: 3rem;
+  border-radius: 5px;
+  padding: 1rem;
+}
+
+h1, h2, h3 {
+  margin: 0;
+}
