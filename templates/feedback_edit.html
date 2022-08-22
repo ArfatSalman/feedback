@@ -8,12 +8,13 @@
     <h2>Original Feedback:</h2>
     <hr>
     <h3>{{feedback.title}}</h3>
-    <div class="margin-1-top-bot">{{feedback.content}}</div>
+    <div class="margin-1-top-bot whitespace-wrap">{{feedback.content}}</div>
   </div>
   <form method="post"  class="form-column info-box centered margin-1-top-bot">
     <h2>Updated Feedback:</h2>
     <hr>
   {% include "form_contents.html" %}
+  <div class="block-text margin-half-top">Feedback will only update if you enter new values. Leave a section blank to avoid changing it!</div>
     <div class="row margin-half-top gap-1">
       <button class="button-blue font-1_25">Submit</button>
       <a href="/users/{{feedback.username}}#user-feedback" class="button button-red font-1_25">Cancel</a>

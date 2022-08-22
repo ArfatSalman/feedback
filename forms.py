@@ -1,13 +1,21 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, EmailField, TextAreaField
-from wtforms.validators import InputRequired, Email, Length, Optional
+from wtforms.validators import InputRequired, Email, Length, Optional, Regexp
 
 
 class AddUserForm(FlaskForm):
     """Form for adding a new user to the feedback site."""
 
     username = StringField(
-        "Username", validators=[InputRequired(message="A username is required.")]
+        "Username",
+        validators=[
+            InputRequired(message="A username is required."),
+            Regexp(
+                r"^[\w-]+$",
+                message="A username must only contain letters, numbers, - , or _",
+            ),
+        ],
+        filters=[lambda str: str.strip() if str else ""],
     )
     password = PasswordField(
         "Password", validators=[InputRequired(message="A password is required.")]
@@ -22,11 +30,27 @@ class AddUserForm(FlaskForm):
     )
     first_name = StringField(
         "First Name",
-        validators=[Length(max=30), InputRequired(message="A first name is required.")],
+        validators=[
+            Length(max=30),
+            InputRequired(message="A first name is required."),
+            Regexp(
+                r"^\S+.*",
+                message="First name must contain at least 1 non-space character.",
+            ),
+        ],
+        filters=[lambda str: str.strip() if str else ""],
     )
     last_name = StringField(
         "Last Name",
-        validators=[Length(max=30), InputRequired(message="A last name is required.")],
+        validators=[
+            Length(max=30),
+            InputRequired(message="A last name is required."),
+            Regexp(
+                r"^\S+.*",
+                message="Last name must contain at least 1 non-space character.",
+            ),
+        ],
+        filters=[lambda str: str.strip() if str else ""],
     )
 
 
@@ -48,10 +72,26 @@ class FeedbackForm(FlaskForm):
 
     title = StringField(
         "Title",
-        validators=[Length(max=100), InputRequired(message="A title is required.")],
+        validators=[
+            Length(max=100),
+            InputRequired(message="A title is required."),
+            Regexp(
+                r"^\S+.*",
+                message="Title must contain at least 1 non-space character.",
+            ),
+        ],
+        filters=[lambda str: str.strip() if str else ""],
     )
     content = TextAreaField(
-        "Content", validators=[InputRequired(message="Feedback content is required.")]
+        "Content",
+        validators=[
+            InputRequired(message="Feedback content is required."),
+            Regexp(
+                r"^\S+.*",
+                message="Content must contain at least 1 non-space character.",
+            ),
+        ],
+        filters=[lambda str: str.strip() if str else ""],
     )
 
 
@@ -60,8 +100,24 @@ class EditFeedbackForm(FlaskForm):
 
     title = StringField(
         "Title",
-        validators=[Length(max=100), Optional()],
+        validators=[
+            Optional(),
+            Length(max=100),
+            Regexp(
+                r"^\S+.*",
+                message="Title must contain at least 1 non-space character.",
+            ),
+        ],
+        filters=[lambda str: str.strip() if str else ""],
     )
     content = TextAreaField(
-        "Content", validators=[Optional()]
+        "Content",
+        validators=[
+            Optional(),
+            Regexp(
+                r"^\S+.*",
+                message="Content must contain at least 1 non-space character.",
+            ),
+        ],
+        filters=[lambda str: str.strip() if str else ""],
     )
