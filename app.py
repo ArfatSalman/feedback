@@ -120,8 +120,6 @@ def login_user():
 # Have a link that sends you to a form to add more feedback and a button to
 # delete the user.
 # Make sure that only the user who is logged in can successfully view this page.
-
-
 @app.route("/users/<username>")
 def display_user_details(username):
     """Displays a user's account details if they are logged in."""

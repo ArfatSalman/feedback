@@ -213,6 +213,10 @@ button:active,
   overflow-wrap: anywhere
 }
 
+.whitespace-wrap {
+  white-space: pre-wrap;
+}
+
 .profile-picture {
   max-width: min(11.5rem, 50vw);
   max-height: min(11.5rem, 50vw);
