@@ -94,14 +94,31 @@ hr {
   align-items: center;
 }
 
+.align-center {
+  align-items: center;
+  text-align: center;
+}
+
 .align-r {
   text-align: right;
-  align-self: flex-end;
 }
 
 .align-l {
   text-align: left;
+}
+
+.flex-end {
+  align-self: flex-end;
+}
+
+.flex-start {
   align-self: flex-start;
+}
+
+.icon {
+  height: 1.5rem;
+  width: 1.5rem;
+  vertical-align: middle;
 }
 
 button,
@@ -166,6 +183,10 @@ button:active,
   max-width: 90%;
 }
 
+.width-70 {
+  max-width: 70%;
+}
+
 .inline-block {
   display: inline-block;
 }
@@ -188,6 +209,10 @@ button:active,
   padding: 0;
 }
 
+.word-wrap {
+  overflow-wrap: anywhere
+}
+
 .profile-picture {
   max-width: min(11.5rem, 50vw);
   max-height: min(11.5rem, 50vw);
@@ -196,9 +221,16 @@ button:active,
   border-radius: 0.5rem;
 }
 
+.flash {
+  background-color: rgb(230, 76, 76);
+}
+
 @media (max-width: 424px) {
   html {
     font-size: 0.85rem;
+  }
+  .font-1_25 {
+    font-size: 1em;
   }
 }
 

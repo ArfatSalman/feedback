@@ -3,8 +3,8 @@
 {% block title %}User Details{% endblock %}
 
 {% block content %}
-<div class="width-90 centered padding-1">
-  <div class="column centered gap-1 padding-1">
+<div class="info-box user-details">
+  <div class="column centered gap-1">
     <h1 class="centered">User Details:</h1>
     <div class="row gap-1">
       <div class="column gap-1 align-r">
@@ -25,24 +25,30 @@
     </form>
   </div>
   <hr>
-  <div class="column-padded centered gap-1">
-    <h2>Your Feedback:</h2>
+  <div class="column centered align-center gap-1 padding-1" id="user-feedback">
+    <h2 class="">Your Feedback:</h2>
     <a href="/users/{{user.username}}/feedback/add" class="button button-green">Add Feedback</a>
     {% if user.feedback|length == 0 %}
     <div>You haven't submitted any feedback!</div>
     {% else %}
+    <div class="row wrap gap-1 width-70">
     {% for post in feedback %}
-    <div class="border border-rounded padding-1">
-      <h3>{{post.title}}</h3>
-      <div class="margin-1-top-bot">{{post.content}}</div>
-      <div class="row gap-1">
-        <a href="/feedback/{{post.id}}/update" class="button button-blue">Edit Feedback</a>
-        <form action="/feedback/{{post.id}}/delete" method="post">
-          <button class="button-red">Delete Feedback</button>
-        </form>
+      <div class="border border-rounded padding-1">
+        <h3 class="feedback">{{post.title}}</h3>
+        <div class="margin-1-top-bot block-text feedback">{{post.content}}</div>
+        <div class="row gap-1">
+          <a href="/feedback/{{post.id}}/update" class="button button-blue">
+            <img src="/static/assets/edit.svg" class="icon">
+          </a>
+          <form action="/feedback/{{post.id}}/delete" method="post">
+            <button class="button-red">
+              <img src="/static/assets/delete.svg" class="icon">
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
     {% endfor %}
+    </div>
     {% endif %}
   </div>
 </div>

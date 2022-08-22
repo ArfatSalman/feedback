@@ -1,17 +1,28 @@
 {{ form.hidden_tag() }}
-<div class="">
+<div class="row gap-1">
+  <div class="column flex-start align-r gap-1">
+    {% for field in form if field.widget.input_type != 'hidden' %}
+    {{ field.label(class_="bold") }}
+    {% endfor %}
+  </div>
+  <div class="column gap-1">
   {% for field in form if field.widget.input_type != 'hidden' %}
-  <div class="form-row margin-1-top-bot space-between">
-    {{ field.label(class_="") }}
-    {{ field(class_="") }}
-  </div>
-  {% if field.errors %}
-  {% for error in field.errors %}
-  <div class="form-row">
-    <div class="">{{ error }}</div>
-  </div>
+    {% if field.type == "TextAreaField" %}
+    {{ field(class_="form-textarea") }}
+    {% else %}
+    {{ field(class_="text-box align-l") }}
+    {% endif %}
   {% endfor %}
-  {% endif %}
+  </div>
+</div>
+<div class="column">
+  {% for field in form if field.widget.input_type != 'hidden' %}
+    {% if field.errors %}
+      {% for error in field.errors %}
+        <div class="margin-half-top form-error centered">
+          <div class="">{{ error }}</div>
+        </div>
+      {% endfor %}
+    {% endif %}
   {% endfor %}
 </div>
-<button class="button-blue font-1_25">Submit</button>
