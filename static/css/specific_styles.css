@@ -1,0 +1,82 @@
+.navbar {
+  font-size: 1.75rem;
+  background-color: rgb(20, 20, 80);
+  color: white;
+  padding-left: min(5vw, 10rem);
+  padding-right: min(5vw, 10rem);
+}
+
+.nav-link {
+  text-decoration: none;
+  color: inherit;
+  padding: 1rem;
+}
+
+.nav-link:hover {
+  background-color: hsl(240, 60%, 10%);
+}
+
+.info-box {
+  width: fit-content;
+  border: 2px black solid;
+  background-color: white;
+  border-radius: 5px;
+  padding: 1rem;
+}
+
+.info-box-margin {
+  width: fit-content;
+  border: 2px black solid;
+  background-color: white;
+  margin-top: 5rem;
+  border-radius: 5px;
+  padding: 1rem;
+}
+
+.text-box {
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.form-textarea {
+  width: min(31.25rem, 56vw);
+  height: 4.125rem;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.block-text {
+  font-size: .9rem;
+  max-width: min(45rem, 60vw);
+}
+
+.form-error {
+  text-align: center;
+  color: rgb(150, 13, 13);
+  font-weight: 600;
+  width: 18rem;
+}
+
+.user-details {
+  width: min(94vw, 53rem);
+  margin: 4.5rem auto 2rem auto;
+}
+
+#user-feedback {
+  width: initial;
+}
+
+.feedback {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 18rem;
+}
+
+h1, h2, h3 {
+  margin: 0;
+}
+
+body {
+  background-image: url("/static/assets/endless-constellation.svg");
+}

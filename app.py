@@ -67,9 +67,12 @@ def add_user():
             db.session.commit()
             session["user"] = added_user.username
             return redirect(f"/users/{added_user.username}")
-        except exc.IntegrityError:
+        except exc.IntegrityError as error:
             db.session.rollback()
-            form.username.errors.append("That username is taken. Please try again.")
+            if 'Key (username)' in error.orig.pgerror:
+                form.username.errors.append("That username is already taken.")
+            if 'Key (email)' in error.orig.pgerror: 
+                form.email.errors.append("That email is already registered.")
             return render_template("register.html", form=form)
     else:
         return render_template("register.html", form=form)
@@ -163,8 +166,9 @@ def display_feedback_form(username):
     """Displays a form to let a logged-in user add feedback to the site."""
     current_username = session.get("user", None)
     if current_username and current_username == username:
+        user = User.query.get_or_404(username)
         form = FeedbackForm()
-        return render_template("feedback.html", form=form)
+        return render_template("feedback.html", form=form, username=username)
     else:
         flash(
             "A user's feedback form can only be viewed by that user while they are logged in.",
@@ -181,6 +185,7 @@ def add_feedback(username):
     """Adds a logged-in user's feedback to the database."""
     current_username = session.get("user", None)
     if current_username and current_username == username:
+        user = User.query.get_or_404(username)
         form = FeedbackForm()
         if form.validate_on_submit():
             user_inputs = form.data
@@ -188,7 +193,7 @@ def add_feedback(username):
             feedback = Feedback(**user_inputs, username=current_username)
             db.session.add(feedback)
             db.session.commit()
-            return redirect(f"/users/{username}")
+            return redirect(f"/users/{username}#user-feedback")
         else:
             return render_template("feedback.html", form=form)
     else:
@@ -205,8 +210,9 @@ def display_edit_feedback_form(feedback_id):
     current_username = session.get("user", None)
     targeted_feedback = Feedback.query.get_or_404(feedback_id)
     if current_username and current_username == targeted_feedback.username:
+        user = User.query.get_or_404(current_username)
         form = EditFeedbackForm()
-        return render_template("feedback_edit.html", form=form)
+        return render_template("feedback_edit.html", form=form, feedback=targeted_feedback)
     else:
         flash("You can only edit your own feedback and you must be logged in.", "error")
         return redirect("/")
@@ -221,6 +227,7 @@ def edit_feedback(feedback_id):
     current_username = session.get("user", None)
     targeted_feedback = Feedback.query.get_or_404(feedback_id)
     if current_username and current_username == targeted_feedback.username:
+        user = User.query.get_or_404(current_username)
         form = EditFeedbackForm()
         if form.validate_on_submit():
             user_inputs = form.data
@@ -230,7 +237,7 @@ def edit_feedback(feedback_id):
                 targeted_feedback.content = user_inputs.get("content")
             db.session.add(targeted_feedback)
             db.session.commit()
-            return redirect(f"/users/{current_username}")
+            return redirect(f"/users/{current_username}#user-feedback")
         else:
             return render_template("feedback_edit.html", form=form)
     else:
@@ -247,9 +254,10 @@ def delete_user(feedback_id):
     current_username = session.get("user", None)
     targeted_feedback = Feedback.query.get_or_404(feedback_id)
     if current_username and current_username == targeted_feedback.username:
+        user = User.query.get_or_404(current_username)
         db.session.delete(targeted_feedback)
         db.session.commit()
-        return redirect(f"/users/{current_username}")
+        return redirect(f"/users/{current_username}#user-feedback")
     else:
         flash(
             "You can only delete your own feedback and you must be logged in.", "error"

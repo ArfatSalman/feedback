@@ -3,32 +3,53 @@
 {% block title %}User Details{% endblock %}
 
 {% block content %}
-<div class="column centered">
-  <h1>User Details:</h1>
-  <div>Username: {{user.username}}</div>
-  <div>First Name: {{user.first_name}}</div>
-  <div>Last Name: {{user.last_name}}</div>
-  <div>Email: {{user.email}}</div>
-</div>
-<div class="column centered">
-  <h3>Your Feedback</h3>
-  {% if user.feedback|length == 0 %}
-    <div>You haven't submitted any feedback!</div>
-  {% else %}
-    {% for post in feedback %}
-    <div>
-      <div>{{post.title}}</div>
-      <div>{{post.content}}</div>
-      <a href="/feedback/{{post.id}}/update">Edit Feedback</a>
-      <form action="/feedback/{{post.id}}/delete" method="post">
-        <button>Delete Feedback</button>
-      </form>
+<div class="info-box user-details">
+  <div class="column centered gap-1">
+    <h1 class="centered">User Details:</h1>
+    <div class="row gap-1">
+      <div class="column gap-1 align-r">
+        <div>Username:</div>
+        <div>First Name:</div>
+        <div>Last Name:</div>
+        <div>Email:</div>
+      </div>
+      <div class="column gap-1 align-l">
+        <div>{{user.username}}</div>
+        <div>{{user.first_name}}</div>
+        <div>{{user.last_name}}</div>
+        <div>{{user.email}}</div>
+      </div>
     </div>
+    <form action="/users/{{user.username}}/delete" method="post" class="centered">
+      <button class="button-red">Delete Account</button>
+    </form>
+  </div>
+  <hr>
+  <div class="column centered align-center gap-1 padding-1" id="user-feedback">
+    <h2 class="">Your Feedback:</h2>
+    <a href="/users/{{user.username}}/feedback/add" class="button button-green">Add Feedback</a>
+    {% if user.feedback|length == 0 %}
+    <div>You haven't submitted any feedback!</div>
+    {% else %}
+    <div class="row wrap gap-1 width-70">
+    {% for post in feedback %}
+      <div class="border border-rounded padding-1">
+        <h3 class="feedback">{{post.title}}</h3>
+        <div class="margin-1-top-bot block-text feedback">{{post.content}}</div>
+        <div class="row gap-1">
+          <a href="/feedback/{{post.id}}/update" class="button button-blue">
+            <img src="/static/assets/edit.svg" class="icon">
+          </a>
+          <form action="/feedback/{{post.id}}/delete" method="post">
+            <button class="button-red">
+              <img src="/static/assets/delete.svg" class="icon">
+            </button>
+          </form>
+        </div>
+      </div>
     {% endfor %}
-  {% endif %}
+    </div>
+    {% endif %}
+  </div>
 </div>
-<a href="/users/{{user.username}}/feedback/add">Add Feedback</a>
-<form action="/users/{{user.username}}/delete" method="post">
-  <button>Delete Account</button>
-</form>
 {% endblock %}

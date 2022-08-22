@@ -5,29 +5,34 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="" defer></script>
-  <link rel="stylesheet" href="">
+  <link rel="stylesheet" href="/static/css/generic_styles.css">
+  <link rel="stylesheet" href="/static/css/specific_styles.css">
   <title>{% block title %}Document{% endblock %}</title>
 </head>
 <body>
+  <div class="navbar row space-between">
+    <a href="/" class="nav-link">Home</a>
+    {% if 'user' in session %}
+    <div class="row">
+      <a href="/users/{{session['user']}}" class="nav-link">My Account</a>
+      <a href="/logout" class="nav-link">Logout</a>
+    </div>
+    {% else %}
+    <div class="row">
+      <a href="/login" class="nav-link">Login</a>
+      <a href="/register" class="nav-link">Sign Up</a>
+    </div>
+    {% endif %}
+  </div>
   {% with messages = get_flashed_messages() %}
     {% if messages %}
-    <div class="flash">
+    <div class="flash bold border-rounded centered column flash margin-1-top-bot padding-1">
       {% for msg in messages %}
         <div>{{msg}}</div>
       {% endfor %}
     </div>
     {% endif %}
   {% endwith %}
-  <div class="navbar row">
-    <a href="/">Home</a>
-    {% if 'user' in session %}
-    <a href="/users/{{session['user']}}">Account Details</a>
-    <a href="/logout">Logout</a>
-    {% else %}
-    <a href="/login">Login</a>
-    <a href="/register">Sign Up</a>
-    {% endif %}
-  </div>
   {% block content %}
   {% endblock %}
 </body>

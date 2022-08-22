@@ -3,7 +3,21 @@
 {% block title %}Add Feedback{% endblock %}
 
 {% block content %}
-<form method="post">
-{% include "form_contents.html" %}
-</form>
+<div class="column-padded centered font-1_25 word-wrap">
+  <div class="column info-box margin-1-top-bot width-70">
+    <h2>Original Feedback:</h2>
+    <hr>
+    <h3>{{feedback.title}}</h3>
+    <div class="margin-1-top-bot">{{feedback.content}}</div>
+  </div>
+  <form method="post"  class="form-column info-box centered margin-1-top-bot">
+    <h2>Updated Feedback:</h2>
+    <hr>
+  {% include "form_contents.html" %}
+    <div class="row margin-half-top gap-1">
+      <button class="button-blue font-1_25">Submit</button>
+      <a href="/users/{{feedback.username}}#user-feedback" class="button button-red font-1_25">Cancel</a>
+    </div>
+  </form>
+</div>
 {% endblock %}
