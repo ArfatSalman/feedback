@@ -270,3 +270,8 @@ def logout_user():
     """Logs a user out of the feedback site."""
     session.pop("user", None)
     return redirect("/")
+
+@app.errorhandler(404)
+def display_404_page(error):
+    """Displays the 404 page if a 404 error occurs."""
+    return render_template("404.html")
